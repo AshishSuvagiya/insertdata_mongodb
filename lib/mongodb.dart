@@ -6,6 +6,7 @@ import 'package:mongo_db/model.dart';
 
 class MongoDatabase {
   static var userCollectionName, db;
+
   static connect() async {
     db = await Db.create(MONGO_URL);
     await db.open();
@@ -13,6 +14,11 @@ class MongoDatabase {
     var status = db.serverStatus();
     print("status=>>$status");
     userCollectionName = db.collection(COLLECTION_NAME);
+  }
+
+  static Future<List<Map<String, dynamic>>> getData() async {
+    final arrData = await userCollectionName.find().toList();
+    return arrData;
   }
 
   static Future<String> insert(MongoDbModel data) async {

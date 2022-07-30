@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:mongo_db/model.dart';
-import 'package:mongo_dart/mongo_dart.dart' as Mongodb;
+import 'package:mongo_db/mongodb_display.dart';
 
 import 'mongodb.dart';
 
@@ -21,14 +21,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Demo Mongodb'),
+      home: MongoDbDisplay(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -43,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("Insert Data"),
       ),
       body: Column(
         children: [
@@ -131,11 +130,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  insertData(
-                    firstNameController.text,
-                    secondNameController.text,
-                    addressController.text,
-                  );
+                  if (firstNameController.text.isNotEmpty &&
+                      secondNameController.text.isNotEmpty &&
+                      addressController.text.isNotEmpty) {
+                    insertData(
+                      firstNameController.text,
+                      secondNameController.text,
+                      addressController.text,
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("PLEASE ENTER ANY INPUT"),
+                      ),
+                    );
+                  }
                 },
                 child: const Text(
                   "Insert Data",
@@ -155,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var result = await MongoDatabase.insert(data);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text("data Uploaded"),
+        content: Text("DATA UPLOADED ON MONGODB.COM"),
       ),
     );
     clearAll();
@@ -172,8 +181,11 @@ class _MyHomePageState extends State<MyHomePage> {
       () {
         firstNameController.text = faker.person.firstName();
         secondNameController.text = faker.person.lastName();
-        addressController.text =
-            faker.address.streetName() + "\n" + faker.address.streetAddress();
+        addressController.text = faker.address.streetName() +
+            ", " +
+            faker.address.streetAddress() +
+            ", " +
+            faker.address.country();
       },
     );
   }
