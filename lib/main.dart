@@ -1,8 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:mongo_db/model.dart';
-import 'package:mongo_db/mongodb_display.dart';
-
 import 'mongodb.dart';
 
 Future<void> main() async {
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MongoDbDisplay(),
+      home: const MyHomePage(),
     );
   }
 }
@@ -161,10 +159,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // var _id = Mongodb.ObjectId;
     final data =
         MongoDbModel(firstName: fName, lastName: lName, address: address);
-    var result = await MongoDatabase.insert(data);
+    await MongoDatabase.insert(data);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text("DATA UPLOADED ON MONGODB.COM"),
+        content: Text("DATA UPLOADED IN MONGODB.COM"),
       ),
     );
     clearAll();

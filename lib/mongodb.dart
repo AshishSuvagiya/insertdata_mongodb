@@ -11,8 +11,6 @@ class MongoDatabase {
     db = await Db.create(MONGO_URL);
     await db.open();
     inspect(db);
-    var status = db.serverStatus();
-    print("status=>>$status");
     userCollectionName = db.collection(COLLECTION_NAME);
   }
 

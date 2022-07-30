@@ -22,14 +22,12 @@ class MongoDbDisplay extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasData) {
-              var data = snapshot.data.length;
-              print("data");
+              var data = snapshot.data;
               return ListView.builder(
-                itemCount: data,
+                itemCount: data.length,
                 itemBuilder: (context, index) {
-                  print("index$index");
                   return displayCard(
-                    MongoDbModel.fromJson(snapshot.data[index]),
+                    MongoDbModel.fromJson(data[index]),
                     index,
                   );
                 },
@@ -50,13 +48,7 @@ class MongoDbDisplay extends StatelessWidget {
         children: [
           Text("$index"),
           Text("${data.firstName}"),
-          const SizedBox(
-            height: 10,
-          ),
           Text("${data.lastName}"),
-          const SizedBox(
-            height: 10,
-          ),
           Text("${data.address}"),
         ],
       ),
