@@ -28,7 +28,6 @@ class MongoDatabase {
         return "Something wrong while inserting data.";
       }
     } catch (e) {
-      print(e.toString());
       return e.toString();
     }
   }

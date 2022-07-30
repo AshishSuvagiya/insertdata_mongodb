@@ -5,6 +5,12 @@ class MongoDbUpdate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SafeArea(
+      child: Container(
+        color: Colors.grey,
+        width: 100,
+        height: 100,
+      ),
+    );
   }
 }
